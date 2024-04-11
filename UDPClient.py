@@ -1,9 +1,8 @@
 from socket import *
 
-# 민서 ip : 175.213.35.145
-# 형섭 ip : 192.168.75.101
+# serverName, serverPort: 내가 접속할 ip, port
 
-serverName = '175.213.35.145'
+serverName = ''
 serverPort = 15000
 clientSocket = socket(AF_INET,SOCK_DGRAM)
 
