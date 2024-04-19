@@ -55,3 +55,50 @@ port 12000으로 필터링
 
 <img src="https://github.com/cobinding/network-socket-task/assets/102461290/01b64bab-40bd-4c79-9804-953f3848406a.png" weight="400" height="200">
 <p>클라이언트 담당자의 화면에서 서버 측에서의 반환이 잘되었음을 확인하였다.</p>
+
+<p><br/></p>
+<p><br/></p>
+
+## 3. TCP 통신 와이어샤크 분석
+
+![image](https://github.com/cobinding/network-socket-task/assets/102461290/2416715b-954e-4779-aaca-bb2ee15adf6e)
+![image](https://github.com/cobinding/network-socket-task/assets/102461290/4f376e5c-178a-4e30-b5cc-9b95f87e43c8)
+
+TCP는 UDP와 달리 segment numbering, 3 way handshake 등을 통해 **신뢰성을 보장하는 통신**을 한다. 따라서 wireshark를 통해 캡쳐했을 때 위와 같이 복잡한 통신 과정을 보인다.
+
+<p><br/></p>
+
+### Wireshark를 통해 알아본 3way handshake 과정
+
+1. SYN
+
+![image](https://github.com/cobinding/network-socket-task/assets/102461290/8c56a461-c614-4ff7-89fa-f7325d5bc634)
+
+SYN - Sequence Number가 2917077022로 상대값은 0이다. 즉, 첫 번째 TCP 통신으로, 서버는 이에 대한 SYN, ACK를 반환해야 한다. 이를 다음 패킷의 상세내용을 통해 확인할 수 있다.
+
+1. SYN, ACK
+
+![image](https://github.com/cobinding/network-socket-task/assets/102461290/e44d8ab8-24c7-405f-ab71-d70cc230982f)
+
+- Acknoweldgement number를 보면 2917077023으로, 클라이언트에게 확인했다는 신호를 준다. 
+
+1. ACK
+
+![image](https://github.com/cobinding/network-socket-task/assets/102461290/3afe5ae8-e3fd-4490-9ffa-b5634edad478)
+
+
+- sequence number 1증가, Acknowledgment number로 확인 전달
+
+이를 통해 서로 3way를 문제없이 잘 하고있음을 wireshark를 통해 확인하였다.
+
+<p><br/></p>
+
+## 4. 동일 PC wireshack capture
+
+Windows 네트워킹은 같은 소스 및 대상 주소를 가진 루프백 어댑터가 없고, 트래픽이 드라이버 스택에 도달하지 않으므로 Windows 운영체제 환경에서 와이어샤크가 패킷을 가로챌 때 제대로 기록되지 않기 때문이다.
+
+<p><br/></p>
+
+## 5. 요약 및 느낀점
+
+wireshark를 통해 UDP와 TCP의 차이점을 확실히 알 수 있었고, TCP 통신의 부하에 대해서도 고민하게 되었다.
